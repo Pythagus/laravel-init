@@ -27,6 +27,10 @@ class console(object):
     # Command indentation number.
     INDENT = 0
     
+    # Possible values for Yes and No questions.
+    YES_VALUES = ["y", "yes"]
+    NO_VALUES  = ["n", "no"]
+    
     # Generate the line start indentation.
     @staticmethod
     def _indent():
@@ -68,17 +72,20 @@ class console(object):
         return input(console._indent() + Fore.GREEN + " ─▶ " + Fore.RESET + message)
     
     # Ask something and returns a boolean.
-    def boolean(message, choices, arr, be_in):
+    def boolean(message, highlited_choice):
+        choices = "[Y/n]" if highlited_choice else "[y/N]"        
         value = console.ask(message + " " + Fore.YELLOW + choices + Fore.RESET + " ").lower()
         
-        if value not in ["y", "yes", "n", "no", ""]:
+        if value not in (console.YES_VALUES + console.NO_VALUES + [""]):
             console.warn("Unknown answer '" + value + "'. Retrying.")
-            return console.boolean(message, choices, arr, be_in)
+            return console.boolean(message, highlited_choice)
         
-        if be_in:
-            return value in arr
+        if value in console.YES_VALUES:
+            return True
+        elif value in console.NO_VALUES:
+            return False
         
-        return value not in arr
+        return highlited_choice
         
         
 # Main shell command interface.
@@ -122,11 +129,11 @@ def deploy():
     # TODO deploy (.env, module:link, storage:path, ln -s (for hosts))
     
     # Should we update the .env file?
-    if console.boolean("Do you want to update .env file?", "[Y/n]", ["y", "yes", ""], True):
+    if console.boolean("Do you want to update .env file?", True):
         console.INDENT += 1
         
         # Is the code for local development?
-        is_local = console.boolean("Are you in local environment?", "[y/N]", ["y", "yes"], True)
+        is_local = console.boolean("Are you in local environment?", False)
         # TODO to continue
         
         console.INDENT -= 1
@@ -137,7 +144,7 @@ def deploy():
         command.artisan("Linking modules", "module:link")
     
     # Create the host link to the public folder.
-    if console.boolean("Create symlink host for web server?", "[y/N]", ["y", "yes"], True):
+    if console.boolean("Create symlink host for web server?", False):
         console.INDENT += 1
         name = console.ask("Virtual host name: ")
         command.run("Creating symbolic link for web server", "ln -s " + CURRENT_FOLDER + "/website/public ~/" + name)
