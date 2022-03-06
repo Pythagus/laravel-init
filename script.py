@@ -165,6 +165,10 @@ def deploy():
         command.run("Creating symbolic link for web server", "ln -s " + CURRENT_FOLDER + "/" + WEBSITE_FOLDER + "/public ~/" + name)
         console.INDENT -= 1
         
+    # TODO in deploy and init functions.
+    # sudo chown -R $USER:www-data storage
+    # sudo chown -R $USER:www-data bootstrap/cache
+        
     console.success("Deployment completed!")
 
 
