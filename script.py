@@ -69,7 +69,11 @@ class console(object):
         
     # Ask something to the user.
     def ask(message):
-        return input(console._indent() + Fore.GREEN + " ─▶ " + Fore.RESET + message)
+        try:
+            return input(console._indent() + Fore.GREEN + " ─▶ " + Fore.RESET + message)
+        except KeyboardInterrupt:
+            print()
+            console.error('Aborted')
     
     # Ask something and returns a boolean.
     def boolean(message, highlited_choice):
