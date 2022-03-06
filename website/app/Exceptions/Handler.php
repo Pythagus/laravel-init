@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Throwable;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 /**
@@ -34,6 +35,17 @@ class Handler extends ExceptionHandler
     public function register() {
         $this->reportable(function (Throwable $e) {
             //
+        }) ;
+
+        $this->renderable(function(ValidationException $e) {
+            try {
+                $errors = $e->errors() ;
+                $message = array_shift($errors)[0] ;
+            } catch(Throwable $throwable) {
+                $message = $e->getMessage() ;
+            }
+
+            flash()->error($message) ;
         }) ;
     }
 }
