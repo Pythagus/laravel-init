@@ -118,7 +118,7 @@ def init():
         console.info("Folder '" + WEBSITE_FOLDER + "' already exists. Skipping creation.")
         command.run("Updating Composer", "composer update -d " + WEBSITE_FOLDER)
     else:
-        command.run("Creating website source code", "composer create-project laravel/laravel website")
+        command.run("Creating website source code", "composer create-project laravel/laravel " + WEBSITE_FOLDER)
         command.artisan("Publishing error pages", "vendor:publish --tag=laravel-errors")
 
 
@@ -128,8 +128,14 @@ def init():
 def deploy():
     # TODO deploy (.env, module:link, storage:path, ln -s (for hosts))
     
+    update_env = not os.path.isfile(WEBSITE_FOLDER + "/.env")
+    
+    # Should we update the .env file anyway?
+    if not update_env:
+        update_env = console.boolean(".env file already exists. Do you want to update it anyway?", False)
+    
     # Should we update the .env file?
-    if console.boolean("Do you want to update .env file?", True):
+    if update_env:
         console.INDENT += 1
         
         # Is the code for local development?
@@ -147,7 +153,7 @@ def deploy():
     if console.boolean("Create symlink host for web server?", False):
         console.INDENT += 1
         name = console.ask("Virtual host name: ")
-        command.run("Creating symbolic link for web server", "ln -s " + CURRENT_FOLDER + "/website/public ~/" + name)
+        command.run("Creating symbolic link for web server", "ln -s " + CURRENT_FOLDER + "/" + WEBSITE_FOLDER + "/public ~/" + name)
         console.INDENT -= 1
         
     console.success("Deployment completed!")
