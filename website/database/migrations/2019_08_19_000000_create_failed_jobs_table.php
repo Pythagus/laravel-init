@@ -1,36 +1,30 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Pythagus\LaravelAbstractBasis\Database\Migration;
 
-class CreateFailedJobsTable extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('failed_jobs', function (Blueprint $table) {
-            $table->id();
-            $table->string('uuid')->unique();
-            $table->text('connection');
-            $table->text('queue');
-            $table->longText('payload');
-            $table->longText('exception');
-            $table->timestamp('failed_at')->useCurrent();
-        });
-    }
+return new class extends Migration {
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('failed_jobs');
+	 * Name of the table
+	 *
+	 * @var string
+	 */
+	protected $table = 'failed_jobs' ;
+
+    /**
+	 * Structure of the table.
+	 *
+	 * @param Blueprint $table
+	 * @return void
+	 */
+    public function structure(Blueprint $table) {
+        $table->id() ;
+        $table->string('uuid')->unique() ;
+        $table->text('connection') ;
+        $table->text('queue') ;
+        $table->longText('payload') ;
+        $table->longText('exception') ;
+        $table->timestamp('failed_at')->useCurrent() ;
     }
-}
+} ;

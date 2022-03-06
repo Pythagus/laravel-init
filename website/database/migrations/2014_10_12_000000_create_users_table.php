@@ -1,36 +1,31 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use App\Models\User;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Pythagus\LaravelAbstractBasis\Database\Migration;
 
-class CreateUsersTable extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
-    }
+return new class extends Migration {
 
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('users');
+	 * Class name of the migration.
+	 *
+	 * @var string
+	 */
+	protected $class = User::class ;
+
+    /**
+	 * Structure of the table.
+	 *
+	 * @param Blueprint $table
+	 * @return void
+	 */
+    public function structure(Blueprint $table) {
+        $table->id() ;
+        $table->string('name') ;
+        $table->string('email')->unique() ;
+        $table->timestamp('email_verified_at')->nullable() ;
+        $table->string('password') ;
+        $table->rememberToken() ;
+        $table->timestamps() ;
     }
-}
+} ;
