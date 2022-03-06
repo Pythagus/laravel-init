@@ -132,7 +132,8 @@ def init():
 def deploy():
     # TODO deploy (.env, module:link, storage:path, ln -s (for hosts))
     
-    update_env = not os.path.isfile(WEBSITE_FOLDER + "/.env")
+    env_file_exists = os.path.isfile(WEBSITE_FOLDER + "/.env")
+    update_env = not env_file_exists
     
     # Should we update the .env file anyway?
     if not update_env:
@@ -152,6 +153,10 @@ def deploy():
     # the website source code.
     if isdir(WEBSITE_FOLDER + '/vendor/pythagus/laravel-abstract-basis'):
         command.artisan("Linking modules", "module:link")
+        
+    # Should we create the storage symbolic link?
+    if console.boolean("Creating storage link?", False):
+        command.artisan("Creating storage path", "storage:link")
     
     # Create the host link to the public folder.
     if console.boolean("Create symlink host for web server?", False):
