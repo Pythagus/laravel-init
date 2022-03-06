@@ -1,3 +1,7 @@
+# Ignoring composer files.
+composer.lock
+
+# Default Laravel ignored files.
 /node_modules
 /public/hot
 /public/storage
