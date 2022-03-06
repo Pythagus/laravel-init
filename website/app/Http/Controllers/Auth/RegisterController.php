@@ -46,12 +46,20 @@ class RegisterController extends Controller {
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data) {
-        return Validator::make($data, [
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+	    $rules =  [
+            'first_name' => $s = 'required|string|max:255',
+            'last_name'  => $s,
+            'email'      => $s . '|email|unique:users',
+            'password'   => $s . '|min:8|confirmed',
+            'phone'      => 'nullable|string|max:15',
+        ] ;
+
+	    if(! app()->isLocal()) {
+	        $rules['g-recaptcha-response'] = 'required|recaptcha' ;
+        }
+
+		return Validator::make($data, $rules) ;
+	}
 
     /**
      * Create a new user instance after a valid registration.
@@ -60,10 +68,14 @@ class RegisterController extends Controller {
      * @return \App\Models\User
      */
     protected function create(array $data) {
-        return User::create([
-            'name'     => $data['name'],
-            'email'    => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]) ;
-    }
+		$user           = new User ;
+		$user->password = Hash::make($data['password']) ;
+
+		unset($data['password'], $data['g-recaptcha-response']) ;
+
+		$user->fill($data) ;
+		$user->save() ;
+
+		return $user ;
+	}
 }
