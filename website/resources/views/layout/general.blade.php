@@ -31,11 +31,11 @@
         <link rel="stylesheet" href="{{ asset('css/global.min.css') }}">
         @stack('style')
     </head>
-    <body class="position-relative font-opensans">
+    <body class="position-relative font-muli">
         @include('flash::message')
         @yield('template_content')
 
-        <script type="text/javascript" src="{{ asset('module/bootstrap/dist/js/bootstrap.bundle.min.js') }}" data-vital="1"></script>
+        <script type="text/javascript" src="{{ asset('modules/bootstrap/dist/js/bootstrap.bundle.min.js') }}" data-vital="1"></script>
         <script type="module" src="{{ asset('js/global.js') }}"></script>
         @stack('script')
 

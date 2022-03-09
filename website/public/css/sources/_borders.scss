@@ -1,0 +1,19 @@
+/* Border */
+.border-black-50 { border-color: rgba(0, 0, 0, 0.5) !important }
+.border-transparent { border-color: transparent }
+.border-black { border-color: black }
+
+.border-radius-50 { border-radius: 50px !important; }
+
+.radius-25 { border-radius: 25% ; }
+.radius-50 { border-radius: 50% ; }
+.radius-75 { border-radius: 75% ; }
+
+.border-solid { border-style: solid }
+
+$border-widths: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10) ;
+@each $width in $border-widths {
+    .border-width-#{$width} {
+        border-width: #{$width}px !important;
+    }
+}

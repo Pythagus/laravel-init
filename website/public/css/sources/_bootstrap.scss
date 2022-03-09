@@ -1,0 +1,42 @@
+@import '../../modules/bootstrap/scss/functions' ;
+@import '../../modules/bootstrap/scss/variables' ;
+@import 'colors' ;
+@import 'borders' ;
+@import 'size' ;
+@import 'fonts' ;
+
+// _variables.scss
+$enable-rounded: false ;
+$enable-responsive-font-sizes: true ;
+
+// _close.scss
+$close-text-shadow: none ;
+$close-color: black ;
+
+// _navbar.scss
+$navbar-light-toggler-border-color: transparent ;
+$navbar-light-color:                rgba(0, 0, 0, .75) ;
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+// For Bootstrap 5.1
+$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+$utilities-colors: map-merge($utilities-colors, $theme-colors-rgb);
+$utilities-text-colors: map-loop($utilities-colors, rgba-css-var, "$key", "text");
+$utilities-bg-colors: map-loop($utilities-colors, rgba-css-var, "$key", "bg");
+
+@import '../../modules/bootstrap/scss/bootstrap' ;
+
+// GREY COLORS
+:root {
+    @each $index, $color in $grays {
+        --gray-#{$index}: #{$color} ;
+    }
+}
+
+@each $index, $color in $grays {
+    .bg-gray-#{$index} {
+        background-color: #{$color} ;
+    }
+}

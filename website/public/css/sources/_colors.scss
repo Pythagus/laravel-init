@@ -1,0 +1,14 @@
+/* Text */
+.text-black { color: black !important ; }
+.text-white-75 { color: rgba(255, 255, 255, .75) !important ; }
+
+// Override the default body background variable.
+$body-bg: #DEE2E6 ;
+
+// Create my own custom colors accessible
+// using var(--bs-main) for example.
+$custom-colors: (
+        "main": #FFC107,
+        "pink": #ac1654,
+        "body": $body-bg,
+) ;

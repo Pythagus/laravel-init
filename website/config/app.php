@@ -3,6 +3,22 @@
 return [
 
     /*
+	|--------------------------------------------------------------------------
+	| Abstract Basis module
+	|--------------------------------------------------------------------------
+	|
+	| This array contains the whole external modules needing a symbolic link in
+	| the public folder.
+	| The key will be the link name.
+	| The value is the path to the targetted file/folder from the vendor folder.
+	|
+	*/
+    'modules' => [
+        'modules/bootstrap'    => 'twbs/bootstrap',
+        'modules/font-awesome' => 'fortawesome/font-awesome',
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Application Name
     |--------------------------------------------------------------------------

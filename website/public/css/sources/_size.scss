@@ -1,0 +1,31 @@
+/*===== POSITIONS =====*/
+$positions: ('left', 'right', 'bottom', 'top') ;
+$positions-size: (
+        0: 0,
+        50: 50%,
+        100: 100%,
+) ;
+
+@each $position in $positions {
+    @each $size-title, $size in $positions-size {
+        .#{$position}-#{$size-title} {
+            #{$position} : #{$size} ;
+        }
+    }
+}
+
+.w-0 { width: 0 !important; }
+.h-0 { height: 0 !important; }
+
+.min-vh-80 {
+    min-height: 80vh ;
+}
+
+$max-widths: (400, 600, 800, 1200, 1500) ;
+@each $size in $max-widths {
+    .w-max-#{$size} {
+        max-width: #{$size}px ;
+        margin-left: auto ;
+        margin-right: auto ;
+    }
+}
