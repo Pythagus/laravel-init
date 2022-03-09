@@ -15,6 +15,21 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+	/*
+     |--------------------------------------------------------------------------
+     | Google ReCaptcha credentials
+     |--------------------------------------------------------------------------
+     |
+     | This array is used in the ReCaptcha Validator to be certain
+	| the current user is not a robot.
+     |
+     */
+	'recaptcha' => [
+		'url'    => 'https://www.google.com/recaptcha/api/siteverify',
+		'key'    => env('GOOGLE_RECAPTCHA_KEY'),
+		'secret' => env('GOOGLE_RECAPTCHA_SECRET'),
+	],
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
