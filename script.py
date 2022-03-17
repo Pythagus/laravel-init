@@ -111,7 +111,12 @@ class command(object):
     # Run a Laravel artisan command.
     @staticmethod
     def artisan(message, _command):
-        command.run(message, "php ./" + WEBSITE_FOLDER + "/artisan " + _command)
+        return command.run(message, "php ./" + WEBSITE_FOLDER + "/artisan " + _command)
+        
+    # Execute a composer command.
+    @staticmethod
+    def composer(message, _command):
+        return command.run(message, "composer " + _command + " -d " + WEBSITE_FOLDER)
 
 
 # Initialize the repository. Should
@@ -120,7 +125,7 @@ def init():
     # If the source code was already generated.
     if isdir(WEBSITE_FOLDER):
         console.info("Folder '" + WEBSITE_FOLDER + "' already exists. Skipping creation.")
-        command.run("Updating Composer", "composer update -d " + WEBSITE_FOLDER)
+        command.composer("Updating Composer", "update")
     else:
         command.run("Creating website source code", "composer create-project laravel/laravel " + WEBSITE_FOLDER)
         command.artisan("Publishing error pages", "vendor:publish --tag=laravel-errors")
@@ -172,6 +177,15 @@ def deploy():
     console.success("Deployment completed!")
 
 
+# Update the website.
+def update():
+    command.run("Updating from git", "git pull")
+    command.composer("Updating composer", "update --optimize-autoloader --no-dev")
+    command.artisan("Caching view files", "view:cache")
+    command.artisan("Caching config files", "config:cache")
+    command.artisan("Caching route files", "route:cache")
+
+
 # Check script arguments number.
 if len(sys.argv) <= 1:
     console.error("Too few arguments given (at least 1)")
@@ -181,5 +195,7 @@ if type == "init":
     init()
 elif type == "deploy":
     deploy()
+elif type == "update":
+    update()
 else:
     console.error("Unknown type '" + type + "'")
