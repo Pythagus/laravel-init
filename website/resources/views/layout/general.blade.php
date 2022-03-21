@@ -28,15 +28,16 @@
         <meta name="twitter:image" content="{{ asset('images/metatag-wallpaper.png') }}">
 
         <!-- Style CSS files -->
-        <link rel="stylesheet" href="{{ asset('css/global.min.css') }}">
+        @include('module.addStyle', ['link' => asset('css/global.min.css'), 'beginning' => true])
         @stack('style')
     </head>
     <body class="position-relative font-muli">
         @include('flash::message')
         @yield('template_content')
+        @include('abstract-basis::maintenance')
 
-        <script type="text/javascript" src="{{ asset('modules/bootstrap/dist/js/bootstrap.bundle.min.js') }}" data-vital="1"></script>
-        <script type="module" src="{{ asset('js/global.js') }}"></script>
+        @include('module.addScript', ['link' => asset('js/global.js'), 'beginning' => true, 'module' => true])
+        @include('module.addScript', ['link' => asset('modules/bootstrap/dist/js/bootstrap.bundle.min.js'), 'beginning' => true])
         @stack('script')
 
         <script type="application/ld+json">
